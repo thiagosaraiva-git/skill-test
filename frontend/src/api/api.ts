@@ -5,13 +5,14 @@ import {
   fetchBaseQuery,
   FetchBaseQueryError
 } from '@reduxjs/toolkit/query/react';
+import type { BaseQueryApi } from '@reduxjs/toolkit/query';
 import Cookies from 'js-cookie';
 import { Tag } from './tag-types';
 import { resetUser } from '@/domains/auth/slice';
 
 const baseQuery = fetchBaseQuery({
   baseUrl: `${import.meta.env.VITE_API_URL}/api/v1`,
-  prepareHeaders: (headers) => {
+  prepareHeaders: (headers: Headers) => {
     const csrfToken = Cookies.get('csrfToken');
     if (csrfToken) {
       headers.set('x-csrf-token', csrfToken);
@@ -23,9 +24,9 @@ const baseQuery = fetchBaseQuery({
 });
 
 const baseQueryWithReauth: BaseQueryFn<string | FetchArgs, unknown, FetchBaseQueryError> = async (
-  args,
-  api,
-  extraOptions
+  args: string | FetchArgs,
+  api: BaseQueryApi,
+  extraOptions: unknown
 ) => {
   let result = await baseQuery(args, api, extraOptions);
   if (result.error && result.error.status === 401) {
