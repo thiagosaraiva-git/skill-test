@@ -136,7 +136,7 @@ export const AddPeopleToPolicy: React.FC<AddPeopleToPolicyProps> = ({ policyId, 
               {filteredUsers &&
                 filteredUsers.map(({ id, name }) => (
                   <MenuItem key={id} value={id}>
-                    <Checkbox checked={users.includes(id)} />
+                    <Checkbox checked={users?.includes(id) ?? false} />
                     <ListItemText primary={name} />
                   </MenuItem>
                 ))}
